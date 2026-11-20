@@ -1,3 +1,0 @@
-API Key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIiwic3ViamVjdCI6ImFwaS1rZXk6Nzk0ZGY0MjEtZGU2MS00ODU1LWJiMzEtZTI5MGRmY2MzZTg3In0.odJ33QO01hPI75VpKuVnjMzYNSalVSqKeXP7IsqA-xY
-
-Cluster endpoint: https://fa6bd9bd-24c1-4ff5-b5b1-cf3233b5396c.us-west-2-0.aws.cloud.qdrant.io
