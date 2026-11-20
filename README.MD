@@ -1,3 +1,37 @@
+##Basic Project
+1. Create our knowledege(some .txt file)
+<!-- Indexing phase -->
+2. Document loading
+3. Chunking
+4. Embedding
+5. Store the embedding into vector DB
+<!-- Query Phase -->
+6. create query
+7. Embedding
+8. Retrieve relevant chunks from vector DB
+9. Pass the chunks and query into LLM
+10. Generate the final response
+
+
+<!-- gpt-6-luna -->
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  apiKey: "your-openai-api-key",
+});
+
+const response = openai.responses.create({
+  model: "gpt-6-luna",
+  input: "write a haiku about ai",
+  store: true,
+});
+
+response.then((result) => console.log(result.output_text));
+
+
+
+
+##QDrant Demo
 1. Setup the QDrant Account
 2. Create Cluster
 3. Setup Project empty repo
