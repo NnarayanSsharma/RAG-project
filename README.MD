@@ -12,6 +12,13 @@
 9. Pass the chunks and query into LLM
 10. Generate the final response
 
+Run the basic RAG pipeline from the repository root:
+
+```sh
+node src/basic-rag/indexing/index.ts
+node src/basic-rag/querying/query.ts
+```
+
 
 <!-- gpt-6-luna -->
 import OpenAI from "openai";

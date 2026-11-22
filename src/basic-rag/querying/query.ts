@@ -1,9 +1,10 @@
 import { buildContext } from "./buildContext.ts";
-import { createEmbeddings } from "./createEmbeddings.ts";
+import { config } from "../config.ts";
+import { createEmbeddings } from "../common/createEmbeddings.ts";
 import { generateResponse } from "./generateResponse.ts";
 import { retrieveChunks } from "./retrieveChunks.ts";
 
-const query = "when and where was Sam Altman born?";
+const query = config.sampleQuery;
 
 const [queryEmbedding] = await createEmbeddings([query]);
 

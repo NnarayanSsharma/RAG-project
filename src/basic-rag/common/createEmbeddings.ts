@@ -1,20 +1,19 @@
 import OpenAI from "openai";
-import * as dotenv from "dotenv";
-dotenv.config();
+import { config } from "../config.ts";
 
 const openai = new OpenAI(
     {
-        apiKey: process.env.OPEN_AI_API_KEY,
+        apiKey: config.openai.apiKey,
     }
 );
 
 
 async function createEmbeddings(chunks: string[]): Promise<number[][]> {
     const embeddings = await openai.embeddings.create({
-        model: "text-embedding-3-small",
+        model: config.openai.embeddingModel,
         input: chunks,
-        encoding_format: "float",
-        dimensions: 1536,
+        encoding_format: config.openai.embeddingEncoding,
+        dimensions: config.openai.embeddingDimensions,
     });
     return embeddings.data.map((item) => item.embedding);
 }

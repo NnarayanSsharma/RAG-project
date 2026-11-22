@@ -1,17 +1,20 @@
-
-import OpenAI from "openai";
 import "dotenv/config";
 
-const client = new OpenAI({
-    apiKey: process.env.OPEN_AI_API_KEY,
-});
-
-
-
-async function generateResponse(query: string, context: string): Promise<string> {
-    // Simulate a call to a language model API
-    const response = await client.responses.create({
-        model: "gpt-6-luna",
+export const config = {
+    documents: [
+        "./src/docs/sam.txt",
+        "./src/docs/dario.txt",
+        "./src/docs/elon.txt",
+    ],
+    documentEncoding: "utf-8",
+    paragraphSeparator: "\n\n",
+    openai: {
+        apiKey: process.env.OPEN_AI_API_KEY,
+        embeddingModel: "text-embedding-3-small",
+        embeddingEncoding: "float",
+        embeddingDimensions: 1536,
+        responseModel: "gpt-6-luna",
+        fallbackAnswer: "I don't know.",
         instructions: `
             Answer the question concisely using only the supplied context.
             Combine facts from multiple paragraphs when needed.
@@ -28,10 +31,13 @@ async function generateResponse(query: string, context: string): Promise<string>
             Example source line:
             Sources: src/docs/sam.txt, paragraphs 2, 4 and 6.
         `,
-        input: `Question: ${query} Context: ${context}`,
-    });
-    console.log("response: ", response);
-    return response.output_text || "I don't know.";
-}
-
-export { generateResponse };
+    },
+    qdrant: {
+        apiKey: process.env.QDRANT_API_KEY,
+        url: process.env.QDRANT_HOST,
+        collectionName: "people",
+        distance: "Cosine",
+        retrievalLimit: 4,
+    },
+    sampleQuery: "Who built entropic, and who were the co founders?",
+} as const;

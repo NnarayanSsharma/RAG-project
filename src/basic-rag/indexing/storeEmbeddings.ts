@@ -1,15 +1,14 @@
 import { createHash } from "node:crypto";
 import { resolve } from "node:path";
 import { QdrantClient } from "@qdrant/js-client-rest";
-import * as dotenv from "dotenv";
-dotenv.config();
+import { config } from "../config.ts";
 
 const qdrant = new QdrantClient({
-    apiKey: process.env.QDRANT_API_KEY,
-    url: process.env.QDRANT_HOST,
+    apiKey: config.qdrant.apiKey,
+    url: config.qdrant.url,
 });
 
-const collectionName = "people";
+const { collectionName, distance } = config.qdrant;
 
 function paragraphId(documentPath: string, paragraphIndex: number): string {
     const bytes = createHash("sha256")
@@ -35,7 +34,7 @@ export async function storeEmbeddings(filePath: string, chunks: string[], embedd
     if (!exists) {
         try {
             await qdrant.createCollection(collectionName, {
-                vectors: { size: 1536, distance: "Cosine" },
+                vectors: { size: config.openai.embeddingDimensions, distance },
             });
         } catch (error) {
             // Another indexing run may have created the collection in the meantime.
