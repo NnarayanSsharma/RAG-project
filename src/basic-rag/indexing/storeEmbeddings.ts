@@ -23,6 +23,17 @@ function paragraphId(documentPath: string, paragraphIndex: number): string {
 }
 
 export async function storeEmbeddings(filePath: string, chunks: string[], embeddings: number[][]): Promise<void> {
+    const { embeddingDimensions } = config.openai;
+    if (embeddings.length !== chunks.length) {
+        throw new Error(`Invalid embeddings for "${filePath}": expected ${chunks.length} vectors, received ${embeddings.length}.`);
+    }
+    for (let index = 0; index < chunks.length; index++) {
+        const vector = embeddings[index];
+        if (!vector || vector.length !== embeddingDimensions) {
+            throw new Error(`Invalid embedding for "${filePath}", paragraph ${index + 1}: expected ${embeddingDimensions} dimensions, received ${vector?.length ?? 0}.`);
+        }
+    }
+
     const documentPath = resolve(filePath);
     const points = chunks.map((chunk, index) => ({
         id: paragraphId(documentPath, index + 1),
@@ -34,7 +45,7 @@ export async function storeEmbeddings(filePath: string, chunks: string[], embedd
     if (!exists) {
         try {
             await qdrant.createCollection(collectionName, {
-                vectors: { size: config.openai.embeddingDimensions, distance },
+                vectors: { size: embeddingDimensions, distance },
             });
         } catch (error) {
             // Another indexing run may have created the collection in the meantime.

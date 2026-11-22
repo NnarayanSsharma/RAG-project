@@ -7,7 +7,7 @@ export const config = {
         "./src/docs/elon.txt",
     ],
     documentEncoding: "utf-8",
-    paragraphSeparator: "\n\n",
+    paragraphSeparator: /\r?\n(?:[ \t]*\r?\n)+/,
     openai: {
         apiKey: process.env.OPEN_AI_API_KEY,
         embeddingModel: "text-embedding-3-small",
